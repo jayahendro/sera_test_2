@@ -52,9 +52,9 @@ Download the REST API from [here][postman-url]
 ## Results
 1. Unit Testing<br>
    ![Unit Test][unit-test]
-   
+
 2. Coverage<br>
-- ![Coverage Code][coverage-code]
+   ![Coverage Code][coverage-code]
 
 ## Contact
 Jaya Hendro Gunawan - [@jayahendrogunawan][instagram-url]

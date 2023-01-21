@@ -56,6 +56,9 @@ Download the REST API from [here][postman-url]
 2. Coverage<br>
    ![Coverage Code][coverage-code]
 
+## Note
+   Every time create a user that will send to inputted email directly.
+
 ## Contact
 Jaya Hendro Gunawan - [@jayahendrogunawan][instagram-url]
 

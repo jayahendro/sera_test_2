@@ -4,14 +4,16 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "mocha",
+    "test": "mocha --timeout 3000",
     "coverage": "nyc npm run test",
-    "watch": "nodemon app.js"
+    "watch": "nodemon server.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "amqplib": "^0.10.3",
+    "dotenv": "^16.0.3",
     "express": "^4.18.2"
   },
   "devDependencies": {

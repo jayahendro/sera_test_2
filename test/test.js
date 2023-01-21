@@ -1,6 +1,7 @@
 const { expect } = require('chai');
 const chai = require('chai');
 const request = require('supertest');
+require('dotenv').config();
 
 const app = require('../server');
 
@@ -12,7 +13,7 @@ describe('Test GET /users', () => {
       .get('/users')
       .expect('Content-Type', /json/)
       .expect(200);
-    });
+  });
 });
 
 describe('Test GET /users/:userId', () => {
@@ -22,22 +23,22 @@ describe('Test GET /users/:userId', () => {
       .expect('Content-Type', /json/)
       .expect(200);
 
-      response.body.should.have.valueOf({
-        id: 1,
-        name: 'Jaya Hendro Gunawan',
-        email: 'jaya.hendra05@gmail.com'
-      });
+    response.body.should.have.valueOf({
+      id: 1,
+      name: 'Jaya Hendro Gunawan',
+      email: 'jaya.hendra05@gmail.com'
     });
+  });
   it('should respond with 200 success', async () => {
     const response = await request(app)
       .get('/users/99')
       .expect('Content-Type', /json/)
       .expect(404);
 
-      response.body.should.have.valueOf({
-        error: 'User not found'
+    response.body.should.have.valueOf({
+      error: 'User not found'
     });
-    });
+  });
 });
 
 describe('Test POST /users', () => {
@@ -60,9 +61,9 @@ describe('Test POST /users', () => {
       .expect('Content-Type', /json/)
       .expect(400);
 
-      response.body.should.have.valueOf({
-        error: 'Missing user name'
-      });
+    response.body.should.have.valueOf({
+      error: 'Missing user name'
+    });
   });
   it('should return error because missing email', async () => {
     const response = await request(app)
@@ -73,9 +74,9 @@ describe('Test POST /users', () => {
       .expect('Content-Type', /json/)
       .expect(400);
 
-      response.body.should.have.valueOf({
-        error: 'Missing user email'
-      });
+    response.body.should.have.valueOf({
+      error: 'Missing user email'
+    });
   });
   it('should return error because user already existed', async () => {
     const response = await request(app)
@@ -87,9 +88,25 @@ describe('Test POST /users', () => {
       .expect('Content-Type', /json/)
       .expect(409);
 
-      response.body.should.have.valueOf({
-        error: 'User email already existed'
-      });
+    response.body.should.have.valueOf({
+      error: 'User email already existed'
+    });
+  });
+  it('should return error because failed to connect RabbitMQ', async () => {
+    process.env.RABBITMQ_HOST = 'local';
+    
+    const response = await request(app)
+      .post('/users')
+      .send({
+        name: 'Abc',
+        email: 'abc@gmail.com'
+      })
+      .expect('Content-Type', /json/)
+      .expect(500);
+
+    response.body.should.have.valueOf({
+      error: 'Failed to connect to RabbitMQ'
+    });
   });
 });
 
@@ -114,9 +131,9 @@ describe('Test PUT /users', () => {
       .expect('Content-Type', /json/)
       .expect(404);
 
-      response.body.should.have.valueOf({
-        error: 'User not found'
-      });
+    response.body.should.have.valueOf({
+      error: 'User not found'
+    });
   });
 });
 
@@ -133,8 +150,8 @@ describe('Test DELETE /users', () => {
       .expect('Content-Type', /json/)
       .expect(404);
 
-      response.body.should.have.valueOf({
-        error: 'User not found'
-      });
+    response.body.should.have.valueOf({
+      error: 'User not found'
+    });
   });
 });
